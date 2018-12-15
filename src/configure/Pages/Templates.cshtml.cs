@@ -13,6 +13,8 @@ namespace configure.Pages
     {
         private readonly IAmazonSimpleEmailService _emailService;
 
+        public string Message { get; set; }
+
         public TemplatesModel(IAmazonSimpleEmailService emailService)
         {
             _emailService = emailService;
@@ -20,18 +22,28 @@ namespace configure.Pages
 
         public async Task OnGetAsync(CancellationToken ct)
         {
-            var request = new ListTemplatesRequest();
-            var response = await _emailService.ListTemplatesAsync(request, ct);
-
-            EmailTemplates = new List<EmailTemplate>();
-
-            foreach (var template in response.TemplatesMetadata)
+            try
             {
-                EmailTemplates.Add(new EmailTemplate
+
+                var request = new ListTemplatesRequest();
+                var response = await _emailService.ListTemplatesAsync(request, ct);
+
+                EmailTemplates = new List<EmailTemplate>();
+
+                foreach (var template in response.TemplatesMetadata)
                 {
-                    Name = template.Name,
-                    Created = template.CreatedTimestamp
-                });
+                    EmailTemplates.Add(new EmailTemplate
+                    {
+                        Name = template.Name,
+                        Created = template.CreatedTimestamp
+                    });
+                }
+
+                Message = "Ok";
+            }
+            catch (Exception ex)
+            {
+                Message = $"{ex.Message}";
             }
         }
 

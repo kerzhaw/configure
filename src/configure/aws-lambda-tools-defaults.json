@@ -10,7 +10,7 @@
 
   "profile": "configure",
   "region": "ap-southeast-2",
-  "configuration": "Release",
+  "configuration": "Debug",
   "framework": "netcoreapp2.1",
   "s3-bucket": "kerzhaw-s3-bucket",
   "s3-prefix": "configure/",
