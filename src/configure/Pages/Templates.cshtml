@@ -3,3 +3,10 @@
 @{
     ViewData["Title"] = "Templates";
 }
+
+<ol>
+    @foreach (var template in Model.EmailTemplates)
+    {
+        <li>@template.Name - @template.Created</li>
+    }
+</ol>
