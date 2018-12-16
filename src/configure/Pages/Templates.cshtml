@@ -1,14 +1,27 @@
 @page
 @model TemplatesModel
-@{
-    ViewData["Title"] = "Templates";
-}
 
-<p>Message: @Model.Message</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Created</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var template in Model.EmailTemplates)
+        {
+            <tr>
+                <td>@template.Name</td>                
+                <td>@template.Created</td>
+                <td><a asp-page="/Template" asp-route-templatename="@template.Name">View</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
 
 <ol>
-    @foreach (var template in Model.EmailTemplates)
-    {
-        <li>@template.Name - @template.Created</li>
-    }
 </ol>
+
+<small>Message: @Model.Message</small>
