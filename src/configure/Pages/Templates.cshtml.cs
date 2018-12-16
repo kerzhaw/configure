@@ -13,8 +13,6 @@ namespace configure.Pages
     {
         private readonly IAmazonSimpleEmailService _emailService;
 
-        public string Message { get; set; }
-
         public TemplatesModel(IAmazonSimpleEmailService emailService)
         {
             _emailService = emailService;
@@ -22,47 +20,21 @@ namespace configure.Pages
 
         public async Task OnGetAsync(CancellationToken ct)
         {
-            try
+            var request = new ListTemplatesRequest();
+            var response = await _emailService.ListTemplatesAsync(request, ct);
+
+            EmailTemplates = new List<EmailTemplate>();
+
+            foreach (var template in response.TemplatesMetadata)
             {
-
-                var request = new ListTemplatesRequest();
-                var response = await _emailService.ListTemplatesAsync(request, ct);
-
-                EmailTemplates = new List<EmailTemplate>();
-
-                foreach (var template in response.TemplatesMetadata)
+                EmailTemplates.Add(new EmailTemplate
                 {
-                    EmailTemplates.Add(new EmailTemplate
-                    {
-                        Name = template.Name,
-                        Created = template.CreatedTimestamp
-                    });
-                }
-
-                Message = "Ok";
-            }
-            catch (Exception ex)
-            {
-                Message = $"{ex.Message}";
+                    Name = template.Name,
+                    Created = template.CreatedTimestamp
+                });
             }
         }
 
         public List<EmailTemplate> EmailTemplates { get; set; }
-
-        private async Task CreateTemplate()
-        {
-            var request = new CreateTemplateRequest
-            {
-                Template = new Template
-                {
-                    TemplateName = "Template1",
-                    SubjectPart = "Hello {{name}}",
-                    HtmlPart = "<h1>Hello {{name}},</h1><p>Bye!.</p>",
-                    TextPart = "Hello {{name}}, Bye!"
-                }
-            };
-
-            var response = await _emailService.CreateTemplateAsync(request);
-        }
     }
 }
