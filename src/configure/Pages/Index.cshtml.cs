@@ -8,7 +8,7 @@ namespace configure.Pages
     {
         public async Task OnGetAsync(CancellationToken ct = default(CancellationToken))
         {
-
+            await Task.CompletedTask;
         }
     }
 }
