@@ -6,7 +6,7 @@ namespace configure.Pages
 {
     public class IndexModel : PageModel
     {
-        public async Task OnGetAsync(CancellationToken ct)
+        public async Task OnGetAsync(CancellationToken ct = default(CancellationToken))
         {
 
         }

@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Amazon.SimpleEmail;
 using Amazon.SimpleEmail.Model;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace configure.Pages
@@ -16,14 +18,32 @@ namespace configure.Pages
         public TemplatesModel(IAmazonSimpleEmailService emailService)
         {
             _emailService = emailService;
+            EmailTemplates = new List<EmailTemplate>();
         }
 
-        public async Task OnGetAsync(CancellationToken ct)
+        public async Task<IActionResult> OnGetDeleteAsync(
+            [Required(AllowEmptyStrings = false)]
+            [StringLength(255)]
+            [DataType(DataType.Text)]
+            string templateName,
+            CancellationToken ct = default(CancellationToken))
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var request = new DeleteTemplateRequest { TemplateName = templateName };
+            var response = await _emailService.DeleteTemplateAsync(request, ct);
+
+            if (!response.HttpStatusCode.Equals(HttpStatusCode.OK))
+                return BadRequest();
+
+            return Page();
+        }
+
+        public async Task OnGetAsync(CancellationToken ct = default(CancellationToken))
         {
             var request = new ListTemplatesRequest();
             var response = await _emailService.ListTemplatesAsync(request, ct);
-
-            EmailTemplates = new List<EmailTemplate>();
 
             foreach (var template in response.TemplatesMetadata)
             {

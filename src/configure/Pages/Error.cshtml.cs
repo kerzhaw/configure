@@ -11,7 +11,7 @@ namespace configure.Pages
 
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
 
-        public async Task OnGetAsync(CancellationToken ct)
+        public async Task OnGetAsync(CancellationToken ct = default(CancellationToken))
         {
             RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
         }

@@ -21,7 +21,7 @@ namespace configure.Pages
         }
 
         private async Task<GetTemplateResponse> GetTemplateAsync(
-            string templateName, CancellationToken ct
+            string templateName, CancellationToken ct = default(CancellationToken)
         )
         {
             var request = new GetTemplateRequest { TemplateName = templateName };
@@ -39,27 +39,27 @@ namespace configure.Pages
             }
         }
 
-        private async Task CreateTemplate(Template template)
+        private async Task CreateTemplate(Template template, CancellationToken ct = default(CancellationToken))
         {
             var request = new CreateTemplateRequest
             {
                 Template = template
             };
 
-            await _emailService.CreateTemplateAsync(request);
+            await _emailService.CreateTemplateAsync(request, ct);
         }
 
-        private async Task UpdateTemplate(Template template)
+        private async Task UpdateTemplate(Template template, CancellationToken ct = default(CancellationToken))
         {
             var request = new UpdateTemplateRequest
             {
                 Template = template
             };
 
-            await _emailService.UpdateTemplateAsync(request);
+            await _emailService.UpdateTemplateAsync(request, ct);
         }
 
-        public async Task<IActionResult> OnGetAsync(CancellationToken ct)
+        public async Task<IActionResult> OnGetAsync(CancellationToken ct = default(CancellationToken))
         {
             if (string.IsNullOrWhiteSpace(TemplateName))
                 CreateMode = true;
@@ -79,7 +79,7 @@ namespace configure.Pages
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(CancellationToken ct)
+        public async Task<IActionResult> OnPostAsync(CancellationToken ct = default(CancellationToken))
         {
             if (!ModelState.IsValid)
                 return BadRequest();
@@ -93,13 +93,15 @@ namespace configure.Pages
             };
 
             if (CreateMode)
-                await CreateTemplate(template);
+                await CreateTemplate(template, ct);
             else
-                await UpdateTemplate(template);
+                await UpdateTemplate(template, ct);
 
-            return Page();
+            return RedirectToPage("/Templates");
         }
 
+        [BindProperty]
+        [HiddenInput(DisplayValue = false)]
         public bool CreateMode { get; set; }
 
         [Required(AllowEmptyStrings = false)]
