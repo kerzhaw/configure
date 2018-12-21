@@ -1,18 +1,16 @@
 {
-  "AWSTemplateFormatVersion" : "2010-09-09",
-  "Transform" : "AWS::Serverless-2016-10-31",
-  "Description" : "An AWS Serverless Application that uses the ASP.NET Core framework running in Amazon Lambda.",
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Transform": "AWS::Serverless-2016-10-31",
+  "Description": "An AWS Serverless Application that uses the ASP.NET Core framework running in Amazon Lambda.",
 
-  "Parameters" : {
-  },
+  "Parameters": {},
 
-  "Conditions" : {
-  },
+  "Conditions": {},
 
-  "Resources" : {
+  "Resources": {
 
-    "AspNetCoreFunction" : {
-      "Type" : "AWS::Serverless::Function",
+    "configure": {
+      "Type": "AWS::Serverless::Function",
       "Properties": {
         "Handler": "configure::configure.LambdaEntryPoint::FunctionHandlerAsync",
         "Runtime": "dotnetcore2.1",
@@ -20,10 +18,9 @@
         "MemorySize": 512,
         "Timeout": 30,
         "Role": null,
-        "Policies": ["AWSLambdaFullAccess", "AmazonSESFullAccess"],
-        "Environment" : {
-          "Variables" : {
-          }
+        "Policies": ["AmazonSESFullAccess"],
+        "Environment": {
+          "Variables": {}
         },
         "Events": {
           "ProxyResource": {
@@ -33,7 +30,7 @@
               "Method": "ANY"
             }
           },
-		      "RootResource": {
+          "RootResource": {
             "Type": "Api",
             "Properties": {
               "Path": "/",
@@ -42,14 +39,16 @@
           }
         }
       }
-   
+
     }
   },
 
-  "Outputs" : {
-    "ApiURL" : {
-        "Description" : "API endpoint URL for Prod environment",
-        "Value" : { "Fn::Sub" : "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/" }
+  "Outputs": {
+    "ApiURL": {
+      "Description": "API endpoint URL for Prod environment",
+      "Value": {
+        "Fn::Sub": "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+      }
     }
   }
 }

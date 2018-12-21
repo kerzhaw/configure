@@ -1,1 +1,1 @@
-dotnet lambda deploy-serverless --project-location src\configure
+dotnet lambda deploy-serverless --project-location src\configure --persist-config-file false
