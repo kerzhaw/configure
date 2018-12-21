@@ -2,19 +2,15 @@
   "AWSTemplateFormatVersion": "2010-09-09",
   "Transform": "AWS::Serverless-2016-10-31",
   "Description": "configure",
-
-  "Parameters": {},
-
-  "Conditions": {},
-
   "Resources": {
-
     "configure": {
       "Type": "AWS::Serverless::Function",
       "Properties": {
         "Handler": "configure::configure.LambdaEntryPoint::FunctionHandlerAsync",
         "Runtime": "dotnetcore2.1",
-        "Policies": ["AmazonSESFullAccess"],
+        "Policies": ["AWSLambdaFullAccess", "AmazonSESFullAccess"],
+        "MemorySize": 128,
+        "Timeout": 10,
         "Events": {
           "ProxyResource": {
             "Type": "Api",
@@ -32,10 +28,8 @@
           }
         }
       }
-
     }
   },
-
   "Outputs": {
     "ApiURL": {
       "Description": "API endpoint URL for Prod environment",
