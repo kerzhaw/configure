@@ -17,7 +17,7 @@ namespace configure.Pages
         public TemplatesModel(IAmazonSimpleEmailService emailService)
         {
             _emailService = emailService;
-            EmailTemplates = new List<EmailTemplate>();
+            EmailTemplates = new List<EmailTemplateViewModel>();
         }
 
         public async Task<IActionResult> OnGetDeleteAsync(
@@ -46,7 +46,7 @@ namespace configure.Pages
 
             foreach (var template in response.TemplatesMetadata)
             {
-                EmailTemplates.Add(new EmailTemplate
+                EmailTemplates.Add(new EmailTemplateViewModel
                 {
                     Name = template.Name,
                     Created = template.CreatedTimestamp
@@ -54,6 +54,6 @@ namespace configure.Pages
             }
         }
 
-        public List<EmailTemplate> EmailTemplates { get; set; }
+        public List<EmailTemplateViewModel> EmailTemplates { get; set; }
     }
 }
