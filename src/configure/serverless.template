@@ -14,14 +14,7 @@
       "Properties": {
         "Handler": "configure::configure.LambdaEntryPoint::FunctionHandlerAsync",
         "Runtime": "dotnetcore2.1",
-        "CodeUri": "",
-        "MemorySize": 512,
-        "Timeout": 30,
-        "Role": null,
         "Policies": ["AmazonSESFullAccess"],
-        "Environment": {
-          "Variables": {}
-        },
         "Events": {
           "ProxyResource": {
             "Type": "Api",
