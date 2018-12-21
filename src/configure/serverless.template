@@ -9,7 +9,7 @@
         "Handler": "configure::configure.LambdaEntryPoint::FunctionHandlerAsync",
         "Runtime": "dotnetcore2.1",
         "Policies": ["AWSLambdaFullAccess", "AmazonSESFullAccess"],
-        "MemorySize": 128,
+        "MemorySize": 512,
         "Timeout": 10,
         "Events": {
           "ProxyResource": {
