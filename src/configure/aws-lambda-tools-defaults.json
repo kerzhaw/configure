@@ -10,7 +10,7 @@
     "configuration": "Debug",
     "function-name": "configure",
     "framework": "netcoreapp2.1",
-    "s3-bucket": "kerzhaw-s3-bucket",
+    "s3-bucket": "kerzhaw-s3-bucket-us-east-1",
     "s3-prefix": "configure/",
     "template": "serverless.template",
     "template-parameters": "",
